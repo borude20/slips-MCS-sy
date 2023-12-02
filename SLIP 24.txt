@@ -1,0 +1,142 @@
+SLIP 26 
+Q.1 Write a Java Program to implement Iterator Pattern for Designing Menu like Breakfast,
+Lunch or Dinner Menu 
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+// Item class representing a menu item
+class MenuItem {
+    private String name;
+    private double price;
+
+    public MenuItem(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+}
+
+// Menu interface with an iterator method
+interface Menu {
+    Iterator<MenuItem> createIterator();
+}
+
+// Concrete implementation of the Menu interface for Breakfast
+class BreakfastMenu implements Menu {
+    private ArrayList<MenuItem> items;
+
+    public BreakfastMenu() {
+        items = new ArrayList<>();
+        addItem("Eggs and Bacon", 7.99);
+        addItem("Pancakes", 5.99);
+        addItem("Oatmeal", 3.99);
+    }
+
+    public void addItem(String name, double price) {
+        MenuItem item = new MenuItem(name, price);
+        items.add(item);
+    }
+
+    @Override
+    public Iterator<MenuItem> createIterator() {
+        return items.iterator();
+    }
+}
+
+// Concrete implementation of the Menu interface for Lunch
+class LunchMenu implements Menu {
+    private ArrayList<MenuItem> items;
+
+    public LunchMenu() {
+        items = new ArrayList<>();
+        addItem("Chicken Sandwich", 8.99);
+        addItem("Caesar Salad", 6.99);
+        addItem("Soup of the Day", 4.99);
+    }
+
+    public void addItem(String name, double price) {
+        MenuItem item = new MenuItem(name, price);
+        items.add(item);
+    }
+
+    @Override
+    public Iterator<MenuItem> createIterator() {
+        return items.iterator();
+    }
+}
+
+// Concrete implementation of the Menu interface for Dinner
+class DinnerMenu implements Menu {
+    private ArrayList<MenuItem> items;
+
+    public DinnerMenu() {
+        items = new ArrayList<>();
+        addItem("Grilled Steak", 15.99);
+        addItem("Salmon with Lemon Butter", 12.99);
+        addItem("Vegetarian Pasta", 9.99);
+    }
+
+    public void addItem(String name, double price) {
+        MenuItem item = new MenuItem(name, price);
+        items.add(item);
+    }
+
+    @Override
+    public Iterator<MenuItem> createIterator() {
+        return items.iterator();
+    }
+}
+
+// Client code that uses the iterator to iterate over the menus
+public class Main {
+    public static void printMenu(Menu menu) {
+        Iterator<MenuItem> iterator = menu.createIterator();
+        System.out.println("Menu:");
+        while (iterator.hasNext()) {
+            MenuItem item = iterator.next();
+            System.out.println(item.getName() + " - $" + item.getPrice());
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        BreakfastMenu breakfastMenu = new BreakfastMenu();
+        LunchMenu lunchMenu = new LunchMenu();
+        DinnerMenu dinnerMenu = new DinnerMenu();
+
+        printMenu(breakfastMenu);
+        printMenu(lunchMenu);
+        printMenu(dinnerMenu);
+    }
+}
+====================================================
+Q.2. Write a python program to make Categorical values in numeric format for a given
+dataset 
+
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+
+# Sample dataset
+data = {'Category': ['A', 'B', 'A', 'C', 'B', 'C']}
+df = pd.DataFrame(data)
+
+# Initialize LabelEncoder
+label_encoder = LabelEncoder()
+
+# Apply LabelEncoder to the 'Category' column
+df['Category_numeric'] = label_encoder.fit_transform(df['Category'])
+
+# Display the transformed dataset
+print(df)
+===========================================================
+Q.3 Implement Login System using Django.
+
+---> Not Answered.

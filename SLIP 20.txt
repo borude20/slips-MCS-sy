@@ -1,0 +1,96 @@
+SLIP 20
+
+Q.1 Write a Java Program to implement I/O Decorator for converting uppercase letters to
+ lower case letters.
+
+import java.io.*;
+
+class LowerCaseInputStream extends FilterInputStream {
+    LowerCaseInputStream(InputStream in) {
+        super(in);
+    }
+
+    public int read() throws IOException {
+        int c = in.read();
+        return (c == -1 ? -1 : Character.toLowerCase((char) c));
+    }
+
+    public int read(byte b[], int off, int len) throws IOException {
+        int result = in.read(b, off, len);
+        for (int i = off; i < off + result; i++) {
+            b[i] = (byte) Character.toLowerCase((char) b[i]);
+        }
+        return result;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        try (InputStreamReader reader = new InputStreamReader(System.in)) {
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            System.out.println("Enter text:");
+            String inputText = bufferedReader.readLine();
+
+            try (InputStream lowerCaseInputStream = new LowerCaseInputStream(new ByteArrayInputStream(inputText.getBytes()))) {
+                try (InputStreamReader lowerCaseReader = new InputStreamReader(lowerCaseInputStream)) {
+                    BufferedReader lowerCaseBufferedReader = new BufferedReader(lowerCaseReader);
+                    System.out.println("Text in lower case:");
+                    System.out.println(lowerCaseBufferedReader.readLine());
+                }
+            }
+        }
+    }
+}
+====================================================
+
+Q.2. Write a python program to implement Decision Tree whether or not to play Tennis. 
+
+class DecisionTree:
+    def __init__(self, attribute, branches, default_decision=None):
+        self.attribute = attribute
+        self.branches = branches
+        self.default_decision = default_decision
+
+def play_tennis_decision_tree():
+    # Define the decision tree
+    outlook_tree = DecisionTree('Outlook', {
+        'Sunny': DecisionTree('Humidity', {
+            'High': 'No',
+            'Normal': 'Yes'
+        }, default_decision='No'),
+        'Overcast': 'Yes',
+        'Rainy': DecisionTree('Wind', {
+            'Weak': 'Yes',
+            'Strong': 'No'
+        }, default_decision='No')
+    })
+
+    # Get input from the user
+    outlook = input("Enter outlook (Sunny, Overcast, Rainy): ")
+    humidity = input("Enter humidity (High, Normal): ")
+    wind = input("Enter wind (Weak, Strong): ")
+
+    # Make the decision
+    decision = make_decision(outlook_tree, outlook, humidity, wind)
+
+    # Output the result
+    print(f"\nDecision: {decision}")
+
+def make_decision(tree, outlook, humidity, wind):
+    if outlook in tree.branches:
+        if isinstance(tree.branches[outlook], str):
+            return tree.branches[outlook]
+        else:
+            return make_decision(tree.branches[outlook], outlook, humidity, wind)
+    else:
+        return tree.default_decision
+
+# Run the decision tree for playing tennis
+play_tennis_decision_tree()
+================================================
+
+Q.3 Develop a basic poll application (app).It should consist of two parts:
+ a) A public site in which user can pick their favourite programming language and vote.
+ b) An admin site that lets you add, change and delete programming languages. 
+
+--> Not Answered.

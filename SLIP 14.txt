@@ -1,0 +1,155 @@
+SLIP 14
+Q.1 Write a Java Program to implement Command Design Pattern for Command Interface
+ with execute() . Use this to create variety of commands for LightOnCommand,
+LightOffCommand, GarageDoorUpCommand, StereoOnWithCDComman. 
+
+// Command interface
+interface Command {
+    void execute();
+}
+
+// Concrete command classes
+class Light {
+    void turnOn() {
+        System.out.println("Light is ON");
+    }
+
+    void turnOff() {
+        System.out.println("Light is OFF");
+    }
+}
+
+class LightOnCommand implements Command {
+    private Light light;
+
+    public LightOnCommand(Light light) {
+        this.light = light;
+    }
+
+    @Override
+    public void execute() {
+        light.turnOn();
+    }
+}
+
+class LightOffCommand implements Command {
+    private Light light;
+
+    public LightOffCommand(Light light) {
+        this.light = light;
+    }
+
+    @Override
+    public void execute() {
+        light.turnOff();
+    }
+}
+
+class GarageDoor {
+    void up() {
+        System.out.println("Garage door is UP");
+    }
+}
+
+class GarageDoorUpCommand implements Command {
+    private GarageDoor garageDoor;
+
+    public GarageDoorUpCommand(GarageDoor garageDoor) {
+        this.garageDoor = garageDoor;
+    }
+
+    @Override
+    public void execute() {
+        garageDoor.up();
+    }
+}
+
+class Stereo {
+    void onWithCD() {
+        System.out.println("Stereo is ON with CD");
+    }
+}
+
+class StereoOnWithCDCommand implements Command {
+    private Stereo stereo;
+
+    public StereoOnWithCDCommand(Stereo stereo) {
+        this.stereo = stereo;
+    }
+
+    @Override
+    public void execute() {
+        stereo.onWithCD();
+    }
+}
+
+// Invoker class
+class RemoteControl {
+    private Command command;
+
+    public void setCommand(Command command) {
+        this.command = command;
+    }
+
+    public void pressButton() {
+        command.execute();
+    }
+}
+
+// Client code
+public class CommandPatternExample {
+    public static void main(String[] args) {
+        // Creating instances of appliances
+        Light livingRoomLight = new Light();
+        GarageDoor garageDoor = new GarageDoor();
+        Stereo livingRoomStereo = new Stereo();
+
+        // Creating command objects
+        Command lightOn = new LightOnCommand(livingRoomLight);
+        Command lightOff = new LightOffCommand(livingRoomLight);
+        Command garageDoorUp = new GarageDoorUpCommand(garageDoor);
+        Command stereoOnWithCD = new StereoOnWithCDCommand(livingRoomStereo);
+
+        // Creating remote control and setting commands
+        RemoteControl remoteControl = new RemoteControl();
+        remoteControl.setCommand(lightOn);
+
+        // Pressing the button
+        remoteControl.pressButton();
+
+        // Setting a different command
+        remoteControl.setCommand(garageDoorUp);
+        remoteControl.pressButton();
+    }
+}
+
+================================================
+Q.2. Write a python program to find all null values in a given dataset and remove them
+
+import pandas as pd
+
+# Assuming you have a DataFrame named 'df' representing your dataset
+# You can create a sample DataFrame for demonstration purposes
+data = {'Column1': [1, 2, None, 4, 5],
+        'Column2': [10, None, 30, 40, 50],
+        'Column3': ['A', 'B', 'C', None, 'E']}
+
+df = pd.DataFrame(data)
+
+# Display the original DataFrame
+print("Original DataFrame:")
+print(df)
+
+# Find and remove null values
+df_cleaned = df.dropna()
+
+# Display the DataFrame after removing null values
+print("\nDataFrame after removing null values:")
+print(df_cleaned)
+===================================================
+Q.3 Write node js script to interact with the filesystem, and serve a web page from a file .
+
+---> Not Answered.
+
+
+

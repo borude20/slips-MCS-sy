@@ -1,0 +1,169 @@
+SLIP 6
+
+Q.1 Write a Java Program to implement command pattern to test Remote Control
+
+// Receiver
+class Light {
+    public void turnOn() {
+        System.out.println("Light is on");
+    }
+
+    public void turnOff() {
+        System.out.println("Light is off");
+    }
+}
+
+// Command interface
+interface Command {
+    void execute();
+}
+
+// Concrete Command - TurnOnLightCommand
+class TurnOnLightCommand implements Command {
+    private Light light;
+
+    public TurnOnLightCommand(Light light) {
+        this.light = light;
+    }
+
+    @Override
+    public void execute() {
+        light.turnOn();
+    }
+}
+
+// Concrete Command - TurnOffLightCommand
+class TurnOffLightCommand implements Command {
+    private Light light;
+
+    public TurnOffLightCommand(Light light) {
+        this.light = light;
+    }
+
+    @Override
+    public void execute() {
+        light.turnOff();
+    }
+}
+
+// Invoker
+class RemoteControl {
+    private Command command;
+
+    public void setCommand(Command command) {
+        this.command = command;
+    }
+
+    public void pressButton() {
+        command.execute();
+    }
+}
+
+// Client code
+public class CommandPatternExample {
+    public static void main(String[] args) {
+        Light livingRoomLight = new Light();
+        TurnOnLightCommand livingRoomOnCommand = new TurnOnLightCommand(livingRoomLight);
+        TurnOffLightCommand livingRoomOffCommand = new TurnOffLightCommand(livingRoomLight);
+
+        RemoteControl remoteControl = new RemoteControl();
+
+        remoteControl.setCommand(livingRoomOnCommand);
+        remoteControl.pressButton();
+
+        remoteControl.setCommand(livingRoomOffCommand);
+        remoteControl.pressButton();
+    }
+}
+Q.2 Write a python program to implement Polynomial Linear Regression for given dataset
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+
+np.random.seed(0)
+X = np.linspace(0, 10, 100)
+y = 2 * X + 1 + np.random.normal(0, 2, 100)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+X_train = X_train.reshape(-1, 1)
+X_test = X_test.reshape(-1, 1)
+
+degree = 2 
+
+poly_features = PolynomialFeatures(degree=degree)
+X_train_poly = poly_features.fit_transform(X_train)
+X_test_poly = poly_features.transform(X_test)
+
+poly_reg = LinearRegression()
+poly_reg.fit(X_train_poly, y_train)
+
+y_pred = poly_reg.predict(X_test_poly)
+
+plt.scatter(X, y, label='Original Data')
+plt.plot(X_test, y_pred, color='red', label='Polynomial Regression')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.legend()
+plt.title(f'Polynomial Regression (Degree {degree})')
+plt.show()
+
+from sklearn.metrics import mean_squared_error, r2_score
+
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f'Mean Squared Error: {mse:.2f}')
+print(f'R-squared (R2) Score: {r2:.2f}')
+
+Q.3. Create a Node.js file that opens the requested file and returns the content to the client.
+ If anything goes wrong, throw a 404 error. 
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+const server = http.createServer((req, res) => {
+  // Parse the requested URL to get the file path
+  const filePath = path.join(__dirname, req.url);
+
+  // Check if the file exists
+  fs.exists(filePath, (exists) => {
+    if (!exists) {
+      // If the file doesn't exist, respond with a 404 error
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('404 Not Found');
+      return;
+    }
+
+    // Read the file and send its content as a response
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        // If there's an error reading the file, respond with a 500 error
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('500 Internal Server Error');
+      } else {
+        // Set the appropriate content type based on the file extension
+        const extname = path.extname(filePath);
+        let contentType = 'text/plain';
+        if (extname === '.html') {
+          contentType = 'text/html';
+        } else if (extname === '.css') {
+          contentType = 'text/css';
+        } else if (extname === '.js') {
+          contentType = 'text/javascript';
+        }
+
+        res.writeHead(200, { 'Content-Type': contentType });
+        res.end(data);
+      }
+    });
+  });
+});
+
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

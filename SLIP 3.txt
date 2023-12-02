@@ -1,0 +1,136 @@
+SLIP 3
+Q.1 Write a JAVA Program to implement built-in support (java.util.Observable) Weather
+station with members temperature, humidity, pressure and methods
+mesurmentsChanged(), setMesurment(), getTemperature(), getHumidity(),
+getPressure() 
+
+import java.util.Observable;
+import java.util.Observer;
+
+class WeatherData extends Observable {
+    private float temperature;
+    private float humidity;
+    private float pressure;
+
+    public void measurementsChanged() {
+        setChanged();
+        notifyObservers();
+    }
+
+    public void setMeasurements(float temperature, float humidity, float pressure) {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.pressure = pressure;
+        measurementsChanged();
+    }
+
+    public float getTemperature() {
+        return temperature;
+    }
+
+    public float getHumidity() {
+        return humidity;
+    }
+
+    public float getPressure() {
+        return pressure;
+    }
+}
+
+class WeatherDisplay implements Observer {
+    private Observable observable;
+
+    public WeatherDisplay(Observable observable) {
+        this.observable = observable;
+        observable.addObserver(this);
+    }
+
+    @Override
+    public void update(Observable obs, Object arg) {
+        if (obs instanceof WeatherData) {
+            WeatherData weatherData = (WeatherData) obs;
+            display(weatherData);
+        }
+    }
+
+    public void display(WeatherData weatherData) {
+        System.out.println("Current Conditions: ");
+        System.out.println("Temperature: " + weatherData.getTemperature() + " F");
+        System.out.println("Humidity: " + weatherData.getHumidity() + "%");
+        System.out.println("Pressure: " + weatherData.getPressure() + " inHg");
+        System.out.println();
+    }
+}
+
+public class WeatherStation {
+    public static void main(String[] args) {
+        WeatherData weatherData = new WeatherData();
+
+        WeatherDisplay display1 = new WeatherDisplay(weatherData);
+        WeatherDisplay display2 = new WeatherDisplay(weatherData);
+
+        // Simulate weather changes
+        weatherData.setMeasurements(75.0f, 60.0f, 30.4f);
+        weatherData.setMeasurements(80.0f, 65.0f, 29.9f);
+        weatherData.setMeasurements(70.0f, 55.0f, 30.1f);
+    }
+}
+=========================================================
+Q. 2. Write a python program to make Categorical values in numeric format for a given
+dataset 
+import pandas as pd
+
+# Example DataFrame with categorical columns
+data = {
+    'Category': ['A', 'B', 'A', 'C', 'B'],
+    'Color': ['Red', 'Green', 'Blue', 'Red', 'Green']
+}
+
+df = pd.DataFrame(data)
+
+# Perform one-hot encoding
+df_encoded = pd.get_dummies(df, columns=['Category', 'Color'])
+
+print(df_encoded)
+***********************************************************************
+Q. 3. Create an HTML form for Login and write a JavaScript to validate email ID
+using Regular Expression.
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>Login Form</h2>
+    <form id="loginForm" action="#" method="post">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+        <span id="emailError" class="error"></span><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <input type="submit" value="Login">
+    </form>
+
+    <script>
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('emailError');
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            if (!emailRegex.test(emailInput.value)) {
+                emailError.textContent = 'Invalid email address';
+                event.preventDefault(); // Prevent form submission
+            } else {
+                emailError.textContent = '';
+            }
+        });
+    </script>
+</body>
+</html>

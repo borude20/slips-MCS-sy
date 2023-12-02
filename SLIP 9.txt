@@ -1,0 +1,37 @@
+SLIP 9
+ 
+Q.1 Design simple HR Application using Spring Framework.
+--> Not Answered.
+
+Q2 Write a python program to implement Linear SVM.
+# Import necessary libraries
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.svm import LinearSVC
+from sklearn.metrics import accuracy_score
+
+# Load a sample dataset (e.g., the iris dataset)
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a Linear SVM model
+svm_model = LinearSVC()
+
+# Train the model on the training set
+svm_model.fit(X_train, y_train)
+
+# Make predictions on the test set
+predictions = svm_model.predict(X_test)
+
+# Calculate and print the accuracy
+accuracy = accuracy_score(y_test, predictions)
+print(f"Accuracy: {accuracy}")
+
+==========================================
+Q. 3 Create a node.js file that Select all records from the "customers" table, and display the
+result object on console. 
+---> Not Answered.

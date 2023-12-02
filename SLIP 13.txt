@@ -1,0 +1,102 @@
+SLIP 13
+
+Q.1 Write a Java Program to implement an Adapter design pattern in mobile charger.
+Define two classes – Volt (to measure volts) and Socket (producing constant volts of
+120V). Build an adapter that can produce 3 volts, 12 volts and default 120 volts.
+Implements Adapter pattern using Class Adapter
+
+// Volt class to measure volts
+class Volt {
+    private int volts;
+
+    public Volt(int volts) {
+        this.volts = volts;
+    }
+
+    public int getVolts() {
+        return volts;
+    }
+}
+
+// Socket class producing constant volts of 120V
+class Socket {
+    public Volt getVolts() {
+        return new Volt(120);
+    }
+}
+
+// Adapter interface
+interface MobileChargerAdapter {
+    Volt get3Volts();
+
+    Volt get12Volts();
+
+    Volt getDefaultVolts();
+}
+
+// Class Adapter implementing the Adapter interface
+class MobileChargerClassAdapter extends Socket implements MobileChargerAdapter {
+    @Override
+    public Volt get3Volts() {
+        Volt volts = getVolts();
+        return convertVolts(volts, 3);
+    }
+
+    @Override
+    public Volt get12Volts() {
+        Volt volts = getVolts();
+        return convertVolts(volts, 12);
+    }
+
+    @Override
+    public Volt getDefaultVolts() {
+        return getVolts();
+    }
+
+    private Volt convertVolts(Volt volts, int targetVolts) {
+        int factor = volts.getVolts() / targetVolts;
+        return new Volt(targetVolts);
+    }
+}
+
+// Client code to test the Adapter pattern
+public class AdapterPatternExample {
+    public static void main(String[] args) {
+        MobileChargerAdapter chargerAdapter = new MobileChargerClassAdapter();
+
+        Volt volts3 = chargerAdapter.get3Volts();
+        System.out.println("Charging with " + volts3.getVolts() + " volts");
+
+        Volt volts12 = chargerAdapter.get12Volts();
+        System.out.println("Charging with " + volts12.getVolts() + " volts");
+
+        Volt defaultVolts = chargerAdapter.getDefaultVolts();
+        System.out.println("Charging with " + defaultVolts.getVolts() + " volts");
+    }
+}
+================================================
+Q.2. Write a Python program to prepare Scatter Plot for Iris Dataset 	
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the iris dataset
+iris = sns.load_dataset('iris')
+
+# Create a scatter plot with sepal_length on the x-axis and sepal_width on the y-axis
+plt.scatter(iris['sepal_length'], iris['sepal_width'])
+
+# Set the labels for the axes
+plt.xlabel('Sepal Length')
+plt.ylabel('Sepal Width')
+
+# Set the title for the plot
+plt.title('Scatter Plot of Iris Dataset')
+
+# Display the plot
+plt.show()
+====================================================
+
+Q.3 Using node js create a User Login System. 
+
+--> Not Answered.

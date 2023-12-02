@@ -1,0 +1,100 @@
+SLIP 10 
+
+Q.1 Write a java program to implement Adapter pattern to design Heart Model to Beat
+Model 
+
+// BeatModel interface representing the behavior of a beat model
+interface BeatModel {
+    void start();
+    void stop();
+    void increaseBPM();
+    void decreaseBPM();
+    int getBPM();
+}
+
+// Heart class representing a heart model
+class Heart {
+    void beat() {
+        System.out.println("Heart is beating...");
+    }
+}
+
+// HeartAdapter class adapting the Heart class to the BeatModel interface
+class HeartAdapter implements BeatModel {
+    private Heart heart;
+    private int bpm;
+
+    public HeartAdapter(Heart heart) {
+        this.heart = heart;
+        this.bpm = 70; // Initial BPM value for the example
+    }
+
+    @Override
+    public void start() {
+        System.out.println("Heart model started.");
+        // In a real scenario, you might have some initialization logic here
+    }
+
+    @Override
+    public void stop() {
+        System.out.println("Heart model stopped.");
+        // In a real scenario, you might have some cleanup logic here
+    }
+
+    @Override
+    public void increaseBPM() {
+        bpm += 5;
+        System.out.println("BPM increased to: " + bpm);
+        heart.beat(); // Simulating the heart beating
+    }
+
+    @Override
+    public void decreaseBPM() {
+        bpm -= 5;
+        System.out.println("BPM decreased to: " + bpm);
+        heart.beat(); // Simulating the heart beating
+    }
+
+    @Override
+    public int getBPM() {
+        return bpm;
+    }
+}
+
+// Client code
+public class AdapterPatternExample {
+    public static void main(String[] args) {
+        // Create a Heart object
+        Heart heart = new Heart();
+
+        // Create a HeartAdapter to adapt the Heart object to the BeatModel interface
+        BeatModel beatModel = new HeartAdapter(heart);
+
+        // Use the BeatModel interface to interact with the adapted Heart object
+        beatModel.start();
+        beatModel.increaseBPM();
+        beatModel.decreaseBPM();
+        beatModel.stop();
+    }
+}
+===================================================
+Q2. Write a python program to find all null values in a given dataset and remove them.
+
+import pandas as pd
+
+def remove_null_values(data):
+    data = data.dropna()
+    return data
+
+data = pd.read_csv('data.csv') # assuming your data is in csv format
+cleaned_data = remove_null_values(data)
+
+print(cleaned_data)
+
+==============================================
+Q.3 Create a node.js file that Select all records from the "customers" table, and delete the
+ specified record. 
+---> Not Answered.
+
+
+

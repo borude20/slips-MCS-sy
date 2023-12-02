@@ -1,0 +1,141 @@
+SLIP 28
+
+Q.1 Write a JAVA Program to implement built-in support (java.util.Observable) Weather
+station with members temperature, humidity, pressure and methods
+mesurmentsChanged(), setMesurment(), getTemperature(), getHumidity(),
+getPressure()
+
+
+import java.util.Observable;
+import java.util.Observer;
+
+class WeatherData extends Observable {
+    private float temperature;
+    private float humidity;
+    private float pressure;
+
+    public void measurementsChanged() {
+        setChanged();
+        notifyObservers();
+    }
+
+    public void setMeasurements(float temperature, float humidity, float pressure) {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.pressure = pressure;
+        measurementsChanged();
+    }
+
+    public float getTemperature() {
+        return temperature;
+    }
+
+    public float getHumidity() {
+        return humidity;
+    }
+
+    public float getPressure() {
+        return pressure;
+    }
+}
+
+class WeatherDisplay implements Observer {
+    private Observable observable;
+
+    public WeatherDisplay(Observable observable) {
+        this.observable = observable;
+        observable.addObserver(this);
+    }
+
+    @Override
+    public void update(Observable obs, Object arg) {
+        if (obs instanceof WeatherData) {
+            WeatherData weatherData = (WeatherData) obs;
+            display(weatherData);
+        }
+    }
+
+    public void display(WeatherData weatherData) {
+        System.out.println("Current Conditions: ");
+        System.out.println("Temperature: " + weatherData.getTemperature() + " F");
+        System.out.println("Humidity: " + weatherData.getHumidity() + "%");
+        System.out.println("Pressure: " + weatherData.getPressure() + " inHg");
+        System.out.println();
+    }
+}
+
+public class WeatherStation {
+    public static void main(String[] args) {
+        WeatherData weatherData = new WeatherData();
+
+        WeatherDisplay display1 = new WeatherDisplay(weatherData);
+        WeatherDisplay display2 = new WeatherDisplay(weatherData);
+
+        // Simulate weather changes
+        weatherData.setMeasurements(75.0f, 60.0f, 30.4f);
+        weatherData.setMeasurements(80.0f, 65.0f, 29.9f);
+        weatherData.setMeasurements(70.0f, 55.0f, 30.1f);
+    }
+}
+==========================================
+Q.2. Write a python program to implement Naive Bayes.
+
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn import datasets
+from sklearn.metrics import accuracy_score
+
+# Load the Iris dataset
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+class NaiveBayes:
+    def fit(self, X, y):
+        self.classes = np.unique(y)
+        self.class_probs = {c: np.sum(y == c) / len(y) for c in self.classes}
+        self.feature_probs = {}
+
+        for c in self.classes:
+            self.feature_probs[c] = {
+                i: {
+                    'mean': np.mean(X[y == c, i]),
+                    'std': np.std(X[y == c, i]) + 1e-8  # Add a small value to avoid division by zero
+                }
+                for i in range(X.shape[1])
+            }
+
+    def predict(self, X):
+        preds = []
+        for x in X:
+            class_scores = {
+                c: np.sum(np.log(self.calculate_probability(x, i, self.feature_probs[c]))
+                          for i in range(len(x))) + np.log(self.class_probs[c])
+                for c in self.classes
+            }
+            preds.append(max(class_scores, key=class_scores.get))
+        return np.array(preds)
+
+    def calculate_probability(self, x, i, prob_dict):
+        mean = prob_dict[i]['mean']
+        std = prob_dict[i]['std']
+        exponent = np.exp(-((x[i] - mean) ** 2) / (2 * std ** 2))
+        return exponent / (np.sqrt(2 * np.pi) * std)
+
+# Instantiate and train the Naive Bayes classifier
+nb_classifier = NaiveBayes()
+nb_classifier.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = nb_classifier.predict(X_test)
+
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+=============================================
+Q.3 Create your own blog using Django 
+
+--> Not Ans

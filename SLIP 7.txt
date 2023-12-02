@@ -1,0 +1,220 @@
+SLIP 7
+Q.1 Write a Java Program to implement undo command to test Ceiling fan
+import java.util.Stack;
+
+// Ceiling Fan class
+class CeilingFan {
+    private String location;
+    private int speed;
+
+    public CeilingFan(String location) {
+        this.location = location;
+        this.speed = 0; // Initial speed is off (0)
+    }
+
+    public void turnOn() {
+        System.out.println(location + " Ceiling Fan is On");
+        speed = 1; // Low speed
+    }
+
+    public void increaseSpeed() {
+        if (speed < 3) {
+            speed++;
+            System.out.println(location + " Ceiling Fan speed set to " + speed);
+        }
+    }
+
+    public void decreaseSpeed() {
+        if (speed > 0) {
+            speed--;
+            System.out.println(location + " Ceiling Fan speed set to " + speed);
+        }
+    }
+
+    public void turnOff() {
+        System.out.println(location + " Ceiling Fan is Off");
+        speed = 0; // Turn off the fan
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+}
+
+// Command interface
+interface Command {
+    void execute();
+
+    void undo();
+}
+
+// Command to turn on the fan
+class TurnOnCommand implements Command {
+    private CeilingFan fan;
+
+    public TurnOnCommand(CeilingFan fan) {
+        this.fan = fan;
+    }
+
+    @Override
+    public void execute() {
+        fan.turnOn();
+    }
+
+    @Override
+    public void undo() {
+        fan.turnOff();
+    }
+}
+
+// Command to increase the fan speed
+class IncreaseSpeedCommand implements Command {
+    private CeilingFan fan;
+
+    public IncreaseSpeedCommand(CeilingFan fan) {
+        this.fan = fan;
+    }
+
+    @Override
+    public void execute() {
+        fan.increaseSpeed();
+    }
+
+    @Override
+    public void undo() {
+        fan.decreaseSpeed();
+    }
+}
+
+// Command to turn off the fan
+class TurnOffCommand implements Command {
+    private CeilingFan fan;
+
+    public TurnOffCommand(CeilingFan fan) {
+        this.fan = fan;
+    }
+
+    @Override
+    public void execute() {
+        fan.turnOff();
+    }
+
+    @Override
+    public void undo() {
+        fan.turnOn();
+    }
+}
+
+// Remote Control to invoke commands
+class RemoteControl {
+    private Command command;
+    private Stack<Command> commandHistory = new Stack<>();
+
+    public void setCommand(Command command) {
+        this.command = command;
+    }
+
+    public void pressButton() {
+        command.execute();
+        commandHistory.push(command);
+    }
+
+    public void pressUndo() {
+        if (!commandHistory.isEmpty()) {
+            Command lastCommand = commandHistory.pop();
+            lastCommand.undo();
+        }
+    }
+}
+
+public class CeilingFanTest {
+    public static void main(String[] args) {
+        CeilingFan livingRoomFan = new CeilingFan("Living Room");
+        RemoteControl remoteControl = new RemoteControl();
+
+        Command turnOnCommand = new TurnOnCommand(livingRoomFan);
+        Command increaseSpeedCommand = new IncreaseSpeedCommand(livingRoomFan);
+        Command turnOffCommand = new TurnOffCommand(livingRoomFan);
+
+        remoteControl.setCommand(turnOnCommand);
+        remoteControl.pressButton();
+
+        remoteControl.setCommand(increaseSpeedCommand);
+        remoteControl.pressButton();
+
+        remoteControl.setCommand(turnOffCommand);
+        remoteControl.pressButton();
+
+        remoteControl.pressUndo();
+        remoteControl.pressUndo();
+    }
+}
+Q.2. Write a python program to implement Naive Bayes.
+
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
+
+# Sample training data
+train_data = [
+    ("I love this product", "positive"),
+    ("This is great", "positive"),
+    ("I dislike it", "negative"),
+    ("This is terrible", "negative"),
+    ("It's good", "positive"),
+    ("I don't like it", "negative"),
+]
+
+# Sample testing data
+test_data = [
+    "I really like it",
+    "This is awesome",
+    "I hate this",
+    "It's amazing",
+]
+
+train_texts, train_labels = zip(*train_data)
+
+text_clf = Pipeline([
+    ('vectorizer', CountVectorizer()), 
+    ('classifier', MultinomialNB()),    
+])
+r
+text_clf.fit(train_texts, train_labels)
+
+predicted_labels = text_clf.predict(test_data)
+
+for text, label in zip(test_data, predicted_labels):
+    print(f"Text: {text} | Predicted Class: {label}")
+
+Q. 3 Create a Node.js file that writes an HTML form, with an upload field. 
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  // Check if the request method is GET
+  if (req.method === 'GET') {
+    // Serve the HTML form
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>File Upload Form</title>
+      </head>
+      <body>
+        <h1>Upload a File</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+          <input type="file" name="file" />
+          <input type="submit" value="Upload" />
+        </form>
+      </body>
+      </html>
+    `);
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

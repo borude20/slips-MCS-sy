@@ -1,0 +1,32 @@
+SLIP 22
+
+Q.1 Design simple HR Application using Spring Framework
+---> Not Asnwered.
+
+Q.2 Write a Python program to prepare Scatter Plot for Iris Dataset 
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_iris
+
+# Load the Iris dataset
+iris = load_iris()
+data = iris.data
+target = iris.target
+feature_names = iris.feature_names
+
+# Create a DataFrame for better visualization
+import pandas as pd
+iris_df = pd.DataFrame(data, columns=feature_names)
+iris_df['species'] = target
+
+# Scatter plot using seaborn
+sns.set(style="white", palette="muted")
+sns.scatterplot(x='sepal length (cm)', y='sepal width (cm)', hue='species', data=iris_df, palette="Set1", s=70, alpha=0.8)
+plt.title('Scatter Plot of Sepal Length vs Sepal Width')
+plt.show()
+
+Q.3 Design a Django application: An admin site that lets you add, change and delete
+programming languages. 
+
+--> Not Answered.

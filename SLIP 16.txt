@@ -1,0 +1,147 @@
+SLIP 16
+Q.1 Write a Java Program to implement Observer Design Pattern for number conversion.
+Accept a number in Decimal form and represent it in Hexadecimal, Octal and Binary.
+Change the Number and it reflects in other forms also
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+// Subject interface
+interface Subject {
+    void addObserver(Observer observer);
+    void removeObserver(Observer observer);
+    void notifyObservers();
+}
+
+// Observer interface
+interface Observer {
+    void update(int decimalNumber);
+}
+
+// Concrete subject
+class DecimalNumber implements Subject {
+    private int decimalNumber;
+    private List<Observer> observers = new ArrayList<>();
+
+    public void setDecimalNumber(int decimalNumber) {
+        this.decimalNumber = decimalNumber;
+        notifyObservers();
+    }
+
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update(decimalNumber);
+        }
+    }
+}
+
+// Concrete observers
+class HexObserver implements Observer {
+    @Override
+    public void update(int decimalNumber) {
+        System.out.println("Hexadecimal: " + Integer.toHexString(decimalNumber));
+    }
+}
+
+class OctalObserver implements Observer {
+    @Override
+    public void update(int decimalNumber) {
+        System.out.println("Octal: " + Integer.toOctalString(decimalNumber));
+    }
+}
+
+class BinaryObserver implements Observer {
+    @Override
+    public void update(int decimalNumber) {
+        System.out.println("Binary: " + Integer.toBinaryString(decimalNumber));
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        DecimalNumber decimalNumber = new DecimalNumber();
+        HexObserver hexObserver = new HexObserver();
+        OctalObserver octalObserver = new OctalObserver();
+        BinaryObserver binaryObserver = new BinaryObserver();
+
+        decimalNumber.addObserver(hexObserver);
+        decimalNumber.addObserver(octalObserver);
+        decimalNumber.addObserver(binaryObserver);
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.print("Enter a decimal number (or type 'exit' to quit): ");
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                int decimal = Integer.parseInt(input);
+                decimalNumber.setDecimalNumber(decimal);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid decimal number.");
+            }
+        }
+
+        scanner.close();
+    }
+}
+============================================
+
+Q.2 Write a python program to Implement Simple Linear Regression for predicting house
+price. 
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+# Generate some random data for demonstration purposes
+np.random.seed(42)
+house_size = np.random.randint(100, 200, 100)
+house_price = 50 * house_size + 5000 + np.random.normal(0, 1000, 100)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(house_size.reshape(-1, 1), house_price, test_size=0.2, random_state=42)
+
+# Create a linear regression model
+model = LinearRegression()
+
+# Train the model
+model.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+mse = mean_squared_error(y_test, y_pred)
+print(f'Mean Squared Error: {mse}')
+
+# Plot the regression line
+plt.scatter(X_test, y_test, color='black')
+plt.plot(X_test, y_pred, color='blue', linewidth=3)
+plt.xlabel('House Size')
+plt.ylabel('House Price')
+plt.title('Simple Linear Regression - House Price Prediction')
+plt.show()
+===============================================
+Q.3 Create a js file named main.js for event-driven application. There should be a main
+loop that listens for events, and then triggers a callback function when one of those
+events is detected. 
+
+--> Not Answered.

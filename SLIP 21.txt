@@ -1,0 +1,119 @@
+SLIP 21
+
+Q.1 Write a Java Program to implement command pattern to test Remote Control 
+
+// Command interface
+interface Command {
+    void execute();
+}
+
+// Concrete Command 1
+class LightOnCommand implements Command {
+    private Light light;
+
+    public LightOnCommand(Light light) {
+        this.light = light;
+    }
+
+    @Override
+    public void execute() {
+        light.turnOn();
+    }
+}
+
+// Concrete Command 2
+class LightOffCommand implements Command {
+    private Light light;
+
+    public LightOffCommand(Light light) {
+        this.light = light;
+    }
+
+    @Override
+    public void execute() {
+        light.turnOff();
+    }
+}
+
+// Receiver
+class Light {
+    public void turnOn() {
+        System.out.println("Light is ON");
+    }
+
+    public void turnOff() {
+        System.out.println("Light is OFF");
+    }
+}
+
+// Invoker
+class RemoteControl {
+    private Command command;
+
+    public void setCommand(Command command) {
+        this.command = command;
+    }
+
+    public void pressButton() {
+        command.execute();
+    }
+}
+
+// Client
+public class Main {
+    public static void main(String[] args) {
+        // Create a light and corresponding commands
+        Light livingRoomLight = new Light();
+        LightOnCommand livingRoomLightOn = new LightOnCommand(livingRoomLight);
+        LightOffCommand livingRoomLightOff = new LightOffCommand(livingRoomLight);
+
+        // Create a remote control
+        RemoteControl remote = new RemoteControl();
+
+        // Press the ON button
+        remote.setCommand(livingRoomLightOn);
+        remote.pressButton();
+
+        // Press the OFF button
+        remote.setCommand(livingRoomLightOff);
+        remote.pressButton();
+    }
+}
+====================================================
+
+Q.2. Write a python program to implement Linear SVM.
+
+# Importing necessary libraries
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.svm import LinearSVC
+from sklearn.metrics import accuracy_score
+
+# Load the iris dataset as an example
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a Linear SVM model
+svm_model = LinearSVC()
+
+# Train the model on the training data
+svm_model.fit(X_train, y_train)
+
+# Make predictions on the test data
+predictions = svm_model.predict(X_test)
+
+# Calculate the accuracy of the model
+accuracy = accuracy_score(y_test, predictions)
+print(f"Accuracy: {accuracy}")
+
+
+===============================================
+
+Q.3 Design a Django application: A public site in which user can pick their favourite
+programming language and vote. 
+
+--> Not Answered.

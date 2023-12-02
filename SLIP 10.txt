@@ -1,0 +1,138 @@
+SLIP 10
+
+Q.1 Write a Java Program to implement Strategy Pattern for Duck Behavior. Create
+instance variable that holds current state of Duck from there, we just need to handle all
+Flying Behaviors and Quack Behavior.
+
+abstract class Duck {
+    protected FlyBehavior flyBehavior;
+    protected QuackBehavior quackBehavior;
+
+    public Duck() {
+    }
+
+    public abstract void display();
+
+    public void performFly() {
+        flyBehavior.fly();
+    }
+
+    public void performQuack() {
+        quackBehavior.quack();
+    }
+
+    public void swim() {
+        System.out.println("All ducks float, even decoys!");
+    }
+
+    public void setFlyBehavior(FlyBehavior fb) {
+        flyBehavior = fb;
+    }
+
+    public void setQuackBehavior(QuackBehavior qb) {
+        quackBehavior = qb;
+    }
+}
+
+class MallardDuck extends Duck {
+    public MallardDuck() {
+        quackBehavior = new Quack();
+        flyBehavior = new FlyWithWings();
+    }
+
+    public void display() {
+        System.out.println("I'm a real Mallard duck!");
+    }
+}
+
+class DecoyDuck extends Duck {
+    public DecoyDuck() {
+        quackBehavior = new MuteQuack();
+        flyBehavior = new FlyNoWay();
+    }
+
+    public void display() {
+        System.out.println("I'm a duck Decoy!");
+    }
+}
+
+interface FlyBehavior {
+    void fly();
+}
+
+class FlyWithWings implements FlyBehavior {
+    public void fly() {
+        System.out.println("I'm flying with my wings!");
+    }
+}
+
+class FlyNoWay implements FlyBehavior {
+    public void fly() {
+        System.out.println("I can't fly!");
+    }
+}
+
+interface QuackBehavior {
+    void quack();
+}
+
+class Quack implements QuackBehavior {
+    public void quack() {
+        System.out.println("Quack quack!");
+    }
+}
+
+class MuteQuack implements QuackBehavior {
+    public void quack() {
+        System.out.println("<< Silence >>");
+    }
+}
+
+public class MiniDuckSimulator {
+    public static void main(String[] args) {
+        Duck mallard = new MallardDuck();
+        mallard.performQuack();
+        mallard.performFly();
+
+        Duck decoy = new DecoyDuck();
+        decoy.performQuack();
+        decoy.performFly();
+    }
+}
+=======================================================
+Q. 2 Write a Python program to prepare Scatter Plot for Iris Dataset.
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_iris
+
+# Load the Iris dataset
+iris = load_iris()
+data = iris.data
+target = iris.target
+target_names = iris.target_names
+
+# Create a DataFrame for the Iris dataset using seaborn
+import pandas as pd
+iris_df = pd.DataFrame(data, columns=iris.feature_names)
+iris_df['target'] = target
+iris_df['species'] = iris_df['target'].map({0: 'setosa', 1: 'versicolor', 2: 'virginica'})
+
+# Set the style of seaborn
+sns.set(style="whitegrid")
+
+# Create a scatter plot using seaborn
+sns.scatterplot(x='sepal length (cm)', y='sepal width (cm)', hue='species', data=iris_df, palette='viridis', s=70)
+
+# Set plot labels and title
+plt.title('Scatter Plot for Iris Dataset')
+plt.xlabel('Sepal Length (cm)')
+plt.ylabel('Sepal Width (cm)')
+
+# Display the plot
+plt.show()
+===================================================
+Q. 3 Create a node.js file that Insert Multiple Records in "student" table, and display the
+result object on console. 
+
+---> Not Answered

@@ -1,0 +1,133 @@
+slip 17
+Q.1 Write a Java Program to implement Abstract Factory Pattern for Shape interface.
+
+// Shape interface
+import java.util.ArrayList;
+import java.util.List;
+
+abstract class Shape {
+    abstract void draw();
+}
+
+class Circle extends Shape {
+    @Override
+    void draw() {
+        System.out.println("Drawing a Circle");
+    }
+}
+
+class Rectangle extends Shape {
+    @Override
+    void draw() {
+        System.out.println("Drawing a Rectangle");
+    }
+}
+
+class Square extends Shape {
+    @Override
+    void draw() {
+        System.out.println("Drawing a Square");
+    }
+}
+
+abstract class ShapeFactory {
+    public abstract Shape createShape();
+}
+
+class CircleFactory extends ShapeFactory {
+    @Override
+    public Shape createShape() {
+        return new Circle();
+    }
+}
+
+class RectangleFactory extends ShapeFactory {
+    @Override
+    public Shape createShape() {
+        return new Rectangle();
+    }
+}
+
+class SquareFactory extends ShapeFactory {
+    @Override
+    public Shape createShape() {
+        return new Square();
+    }
+}
+
+class FactoryProducer {
+    public static ShapeFactory getFactory(String shapeType) {
+        if(shapeType.equalsIgnoreCase("CIRCLE")) {
+            return new CircleFactory();
+        } else if(shapeType.equalsIgnoreCase("RECTANGLE")) {
+            return new RectangleFactory();
+        } else if(shapeType.equalsIgnoreCase("SQUARE")) {
+            return new SquareFactory();
+        }
+
+        return null;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        List<Shape> shapes = new ArrayList<>();
+
+        ShapeFactory shapeFactory = FactoryProducer.getFactory("CIRCLE");
+        shapes.add(shapeFactory.createShape());
+
+        shapeFactory = FactoryProducer.getFactory("RECTANGLE");
+        shapes.add(shapeFactory.createShape());
+
+        shapeFactory = FactoryProducer.getFactory("SQUARE");
+        shapes.add(shapeFactory.createShape());
+
+        for(Shape shape : shapes) {
+            shape.draw();
+        }
+    }
+}
+========================================
+Q.2. Write a python program to implement Multiple Linear Regression for a given dataset.
+# Import necessary libraries
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
+
+# Generate a sample dataset
+data = {'Feature1': [1, 2, 3, 4, 5],
+        'Feature2': [2, 3, 4, 5, 6],
+        'Target': [3, 5, 7, 9, 11]}
+
+df = pd.DataFrame(data)
+
+# Split the dataset into features (X) and target variable (y)
+X = df[['Feature1', 'Feature2']]
+y = df['Target']
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+# Create a linear regression model
+model = LinearRegression()
+
+# Train the model using the training sets
+model.fit(X_train, y_train)
+
+# Make predictions using the testing set
+y_pred = model.predict(X_test)
+
+# Print the coefficients
+print('Coefficients:', model.coef_)
+
+# Print the intercept
+print('Intercept:', model.intercept_)
+
+# Print the mean squared error
+print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))
+===============================================
+Q.3 Write node js application that transfer a file as an attachment on web and enables
+browser to prompt the user to download file using express js.  
+---> Not Answered.

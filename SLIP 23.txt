@@ -1,0 +1,267 @@
+SLIP 23
+
+Q. 1 Write a Java Program to implement State Pattern for Gumball Machine. Create
+instance variable that holds current state from there, we just need to handle all
+actions, behaviors and state transition that can happen
+
+
+import java.util.Scanner;
+
+// Gumball Machine Class
+public class GumballMachine {
+    private int count = 0;
+    private State state;
+
+    public GumballMachine(int numberGumballs) {
+        count = numberGumballs;
+        if (count > 0) {
+            state = new NoQuarterState();
+        } else {
+            state = new SoldOutState();
+        }
+    }
+
+    public void insertQuarter() {
+        state.insertQuarter(this);
+    }
+
+    public void ejectQuarter() {
+        state.ejectQuarter(this);
+    }
+
+    public void turnCrank() {
+        state.turnCrank(this);
+        state.dispense(this);
+    }
+
+    public void releaseBall() {
+        System.out.println("A gumball comes rolling out the slot...");
+        if (count != 0) {
+            count--;
+        }
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void refill(int count) {
+        this.count = count;
+        if (count > 0) {
+            state = new NoQuarterState();
+        } else {
+            state = new SoldOutState();
+        }
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public void printState() {
+        state.printState();
+    }
+
+    public static void main(String[] args) {
+        GumballMachine gumballMachine = new GumballMachine(5);
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            gumballMachine.printState();
+            System.out.print("Press 'I' to insert quarter, 'E' to eject quarter, 'T' to turn crank: ");
+            String input = scanner.nextLine().toUpperCase();
+
+            switch (input) {
+                case "I":
+                    gumballMachine.insertQuarter();
+                    break;
+                case "E":
+                    gumballMachine.ejectQuarter();
+                    break;
+                case "T":
+                    gumballMachine.turnCrank();
+                    break;
+                default:
+                    System.out.println("Invalid input. Try again.");
+            }
+        }
+    }
+}
+
+// State Interface
+interface State {
+    void insertQuarter(GumballMachine gumballMachine);
+    void ejectQuarter(GumballMachine gumballMachine);
+    void turnCrank(GumballMachine gumballMachine);
+    void dispense(GumballMachine gumballMachine);
+    void printState();
+}
+
+// Concrete States
+class SoldOutState implements State {
+    @Override
+    public void insertQuarter(GumballMachine gumballMachine) {
+        System.out.println("You can't insert a quarter, the machine is sold out.");
+    }
+
+    @Override
+    public void ejectQuarter(GumballMachine gumballMachine) {
+        System.out.println("You can't eject, you haven't inserted a quarter yet.");
+    }
+
+    @Override
+    public void turnCrank(GumballMachine gumballMachine) {
+        System.out.println("Turning twice doesn't get you another gumball, the machine is sold out.");
+    }
+
+    @Override
+    public void dispense(GumballMachine gumballMachine) {
+        System.out.println("No gumball dispensed, the machine is sold out.");
+    }
+
+    @Override
+    public void printState() {
+        System.out.println("Gumball Machine is SOLD OUT");
+    }
+}
+
+class NoQuarterState implements State {
+    @Override
+    public void insertQuarter(GumballMachine gumballMachine) {
+        System.out.println("You inserted a quarter.");
+        gumballMachine.setState(new HasQuarterState());
+    }
+
+    @Override
+    public void ejectQuarter(GumballMachine gumballMachine) {
+        System.out.println("You haven't inserted a quarter yet.");
+    }
+
+    @Override
+    public void turnCrank(GumballMachine gumballMachine) {
+        System.out.println("You turned the crank, but there is no quarter.");
+    }
+
+    @Override
+    public void dispense(GumballMachine gumballMachine) {
+        System.out.println("No gumball dispensed.");
+    }
+
+    @Override
+    public void printState() {
+        System.out.println("Gumball Machine is waiting for a quarter.");
+    }
+}
+
+class HasQuarterState implements State {
+    @Override
+    public void insertQuarter(GumballMachine gumballMachine) {
+        System.out.println("You can't insert another quarter, the machine is waiting for your turn.");
+    }
+
+    @Override
+    public void ejectQuarter(GumballMachine gumballMachine) {
+        System.out.println("Quarter returned.");
+        gumballMachine.setState(new NoQuarterState());
+    }
+
+    @Override
+    public void turnCrank(GumballMachine gumballMachine) {
+        System.out.println("You turned the crank.");
+        gumballMachine.setState(new SoldState());
+    }
+
+    @Override
+    public void dispense(GumballMachine gumballMachine) {
+        System.out.println("No gumball dispensed, the machine is waiting for your turn.");
+    }
+
+    @Override
+    public void printState() {
+        System.out.println("Gumball Machine has a quarter.");
+    }
+}
+
+class SoldState implements State {
+    @Override
+    public void insertQuarter(GumballMachine gumballMachine) {
+        System.out.println("Please wait, we're already giving you a gumball.");
+    }
+
+    @Override
+    public void ejectQuarter(GumballMachine gumballMachine) {
+        System.out.println("Sorry, you already turned the crank.");
+    }
+
+    @Override
+    public void turnCrank(GumballMachine gumballMachine) {
+        System.out.println("Turning twice doesn't get you another gumball.");
+    }
+
+    @Override
+    public void dispense(GumballMachine gumballMachine) {
+        gumballMachine.releaseBall();
+        if (gumballMachine.getCount() > 0) {
+            gumballMachine.setState(new NoQuarterState());
+        } else {
+            System.out.println("Oops, out of gumballs.");
+            gumballMachine.setState(new SoldOutState());
+        }
+    }
+
+    @Override
+    public void printState() {
+        System.out.println("Gumball Machine is dispensing a gumball.");
+    }
+}
+=====================================================
+
+Q.2. Write a python program to implement Decision Tree whether or not to play Tennis.
+
+class DecisionTree:
+    def __init__(self, attribute, branches, default_decision=None):
+        self.attribute = attribute
+        self.branches = branches
+        self.default_decision = default_decision
+
+def play_tennis_decision_tree():
+    # Define the decision tree
+    outlook_tree = DecisionTree('Outlook', {
+        'Sunny': DecisionTree('Humidity', {
+            'High': 'No',
+            'Normal': 'Yes'
+        }, default_decision='No'),
+        'Overcast': 'Yes',
+        'Rainy': DecisionTree('Wind', {
+            'Weak': 'Yes',
+            'Strong': 'No'
+        }, default_decision='No')
+    })
+
+    # Get input from the user
+    outlook = input("Enter outlook (Sunny, Overcast, Rainy): ")
+    humidity = input("Enter humidity (High, Normal): ")
+    wind = input("Enter wind (Weak, Strong): ")
+
+    # Make the decision
+    decision = make_decision(outlook_tree, outlook, humidity, wind)
+
+    # Output the result
+    print(f"\nDecision: {decision}")
+
+def make_decision(tree, outlook, humidity, wind):
+    if outlook in tree.branches:
+        if isinstance(tree.branches[outlook], str):
+            return tree.branches[outlook]
+        else:
+            return make_decision(tree.branches[outlook], outlook, humidity, wind)
+    else:
+        return tree.default_decision
+
+# Run the decision tree for playing tennis
+play_tennis_decision_tree()
+=====================================================
+
+Q. 3 Create a Node.js file that demonstrates create database and table in MySQL
+
+--> Not Answered.

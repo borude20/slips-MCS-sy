@@ -1,0 +1,132 @@
+SLIP 15 
+Q.1 Write a Java Program to implement Facade Design Pattern for HomeTheater
+
+// Subsystem components
+class DVDPlayer {
+    void on() {
+        System.out.println("DVD Player is ON");
+    }
+
+    void play(String movie) {
+        System.out.println("Playing movie: " + movie);
+    }
+
+    void off() {
+        System.out.println("DVD Player is OFF");
+    }
+}
+
+class Projector {
+    void on() {
+        System.out.println("Projector is ON");
+    }
+
+    void setInput(String input) {
+        System.out.println("Setting projector input to: " + input);
+    }
+
+    void off() {
+        System.out.println("Projector is OFF");
+    }
+}
+
+class SoundSystem {
+    void on() {
+        System.out.println("Sound System is ON");
+    }
+
+    void setVolume(int volume) {
+        System.out.println("Setting volume to: " + volume);
+    }
+
+    void off() {
+        System.out.println("Sound System is OFF");
+    }
+}
+
+// Facade for Home Theater
+class HomeTheaterFacade {
+    private DVDPlayer dvdPlayer;
+    private Projector projector;
+    private SoundSystem soundSystem;
+
+    public HomeTheaterFacade(DVDPlayer dvdPlayer, Projector projector, SoundSystem soundSystem) {
+        this.dvdPlayer = dvdPlayer;
+        this.projector = projector;
+        this.soundSystem = soundSystem;
+    }
+
+    public void watchMovie(String movie) {
+        System.out.println("Get ready to watch a movie...");
+
+        dvdPlayer.on();
+        projector.on();
+        projector.setInput("DVD");
+        soundSystem.on();
+        soundSystem.setVolume(10);
+
+        dvdPlayer.play(movie);
+    }
+
+    public void endMovie() {
+        System.out.println("Shutting down the home theater...");
+
+        dvdPlayer.off();
+        projector.off();
+        soundSystem.off();
+    }
+}
+
+// Client code
+public class Main {
+    public static void main(String[] args) {
+        DVDPlayer dvdPlayer = new DVDPlayer();
+        Projector projector = new Projector();
+        SoundSystem soundSystem = new SoundSystem();
+
+        HomeTheaterFacade homeTheater = new HomeTheaterFacade(dvdPlayer, projector, soundSystem);
+
+        // Watch a movie using the facade
+        homeTheater.watchMovie("Inception");
+
+        // End the movie using the facade
+        homeTheater.endMovie();
+    }
+}
+=====================================================
+
+Q.2 Write a python program to make Categorical values in numeric format for a given
+dataset 
+
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+
+def categorical_to_numeric(data):
+    le = LabelEncoder()
+    for col in data.columns:
+        if data[col].dtype == 'object':
+            data[col] = le.fit_transform(data[col])
+    return data
+
+# Sample usage
+df = pd.DataFrame({
+    'Category': ['A', 'B', 'C', 'A', 'B', 'C'],
+    'Value': [10, 20, 30, 40, 50, 60]
+})
+
+print("Before conversion:")
+print(df)
+
+df = categorical_to_numeric(df)
+
+print("\nAfter conversion:")
+print(df)
+==============================================
+
+Q.3 Write node js script to build Your Own Node.js Module. Use require (‘http’)
+module is a built-in Node module that invokes the functionality of the HTTP library
+to create a local server. Also use the export statement to make functions in your module
+available externally. Create a new text file to contain the functions in your module
+called, “modules.js” and add this function to return today’s date and time. 
+
+---> Not Answered.

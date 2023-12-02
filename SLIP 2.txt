@@ -1,0 +1,148 @@
+SLIP 2
+Q.1] Write a Java Program to implement Singleton pattern for multithreading
+-->MultiThreadingExample.java
+public class MultiThreadingExample {
+    public static void main(String[] args) {
+        // Create multiple threads to access the Singleton instance.
+        Thread thread1 = new Thread(() -> {
+            Singleton singleton = Singleton.getInstance();
+            singleton.showMessage();
+        }); 
+        Thread thread2 = new Thread(() -> {
+            Singleton singleton = Singleton.getInstance();
+            singleton.showMessage();
+        });
+
+        thread1.start();
+        thread2.start();
+    }
+}
+******************************************************************
+Singleton .java
+public class Singleton {
+    private static volatile Singleton instance;
+
+    private Singleton() {
+        // Private constructor to prevent instantiation from outside.
+    }
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+
+    public void showMessage() {
+        System.out.println("Singleton instance is created.");
+    }
+}
+********************************************************************
+Q.2] Write a python program to find all null values in a given dataset and remove them.
+-->
+import pandas as pd
+
+# Sample dataset with null values
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie', None, 'Eve'],
+    'Age': [25, 30, None, 22, 28],
+    'City': [None, 'New York', 'Los Angeles', 'Chicago', 'Miami']
+}
+
+# Create a DataFrame from the dataset
+df = pd.DataFrame(data)
+
+print("Original DataFrame:")
+print(df)
+
+# Find and remove null values
+df_cleaned = df.dropna()
+
+print("\nDataFrame after removing null values:")
+print(df_cleaned)
+
+******************************************************************
+Q3] Create an HTML form that contain the Employee Registration details and write
+a JavaScript to validate DOB, Joining Date, and Salary.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Registration</title>
+<style>
+  .error {
+    color: red;
+  }
+</style>
+</head>
+<body>
+  <h1>Employee Registration</h1>
+  <form id="employeeForm" onsubmit="return validateForm()">
+    <label for="fullName">Full Name:</label>
+    <input type="text" id="fullName" name="fullName" required><br>
+    
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" name="dob" required><br>
+    <span id="dobError" class="error"></span><br>
+    
+    <label for="joiningDate">Joining Date:</label>
+    <input type="date" id="joiningDate" name="joiningDate" required><br>
+    <span id="joiningDateError" class="error"></span><br>
+    
+    <label for="salary">Salary:</label>
+    <input type="number" id="salary" name="salary" required><br>
+    <span id="salaryError" class="error"></span><br>
+    
+    <button type="submit">Register</button>
+  </form>
+
+  <script>
+    function validateForm() {
+      const dob = new Date(document.getElementById("dob").value);
+      const joiningDate = new Date(document.getElementById("joiningDate").value);
+      const salary = parseFloat(document.getElementById("salary").value);
+
+      const today = new Date();
+
+      let isValid = true;
+
+      const dobError = document.getElementById("dobError");
+      const joiningDateError = document.getElementById("joiningDateError");
+      const salaryError = document.getElementById("salaryError");
+
+      dobError.textContent = "";
+      joiningDateError.textContent = "";
+      salaryError.textContent = "";
+
+      if (dob >= today) {
+        dobError.textContent = "DOB must be in the past";
+        isValid = false;
+      }
+
+      if (joiningDate >= today) {
+        joiningDateError.textContent = "Joining date must be in the past";
+        isValid = false;
+      }
+
+      if (joiningDate < dob) {
+        joiningDateError.textContent = "Joining date must be after DOB";
+        isValid = false;
+      }
+
+      if (isNaN(salary) || salary <= 0) {
+        salaryError.textContent = "Salary must be a positive number";
+        isValid = false;
+      }
+
+      return isValid;
+    }
+  </script>
+</body>
+</html>
+

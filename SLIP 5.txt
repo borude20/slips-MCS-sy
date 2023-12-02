@@ -1,0 +1,169 @@
+SLIP 5
+
+Q.1 Write a Java Program to implement Adapter pattern for Enumeration iterator
+
+import java.util.Enumeration;
+import java.util.Iterator;
+
+// Iterator to Enumeration Adapter
+class IteratorToEnumerationAdapter<T> implements Enumeration<T> {
+    private final Iterator<T> iterator;
+
+    public IteratorToEnumerationAdapter(Iterator<T> iterator) {
+        this.iterator = iterator;
+    }
+
+    @Override
+    public boolean hasMoreElements() {
+        return iterator.hasNext();
+    }
+
+    @Override
+    public T nextElement() {
+        return iterator.next();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a sample collection with Iterator
+        java.util.List<String> list = new java.util.ArrayList<>();
+        list.add("Item 1");
+        list.add("Item 2");
+        list.add("Item 3");
+
+        // Create an Iterator
+        Iterator<String> iterator = list.iterator();
+
+        // Use the IteratorToEnumerationAdapter to make it compatible with Enumeration
+        Enumeration<String> enumerationAdapter = new IteratorToEnumerationAdapter<>(iterator);
+
+        // Use the Enumeration interface
+        while (enumerationAdapter.hasMoreElements()) {
+            String element = enumerationAdapter.nextElement();
+            System.out.println("Element: " + element);
+        }
+    }
+}
+=========================================================
+Q.2 Write a python program to implement Multiple Linear Regression for given dataset.
+
+# Import necessary libraries
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
+
+# Generate a sample dataset
+# You can replace this with your own dataset
+data = {'Feature1': [1, 2, 3, 4, 5],
+        'Feature2': [5, 4, 3, 2, 1],
+        'Target': [10, 20, 30, 40, 50]}
+
+df = pd.DataFrame(data)
+
+# Split the data into features (X) and target variable (y)
+X = df[['Feature1', 'Feature2']]
+y = df['Target']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a linear regression model
+model = LinearRegression()
+
+# Train the model using the training sets
+model.fit(X_train, y_train)
+
+# Make predictions using the testing set
+y_pred = model.predict(X_test)
+
+# Print the coefficients
+print('Coefficients:', model.coef_)
+
+# Print the intercept
+print('Intercept:', model.intercept_)
+
+# Evaluate the model
+print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))
+print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))
+print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+============================================================
+Q. 3 Using nodejs create a web page to read two file names from user and append contents
+of first file into second file
+
+HTML FILE
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Append</title>
+</head>
+<body>
+  <h1>File Append</h1>
+  <form id="fileForm">
+    <label for="firstFile">First File Name:</label>
+    <input type="text" id="firstFile" name="firstFile" required>
+    <br>
+    <label for="secondFile">Second File Name:</label>
+    <input type="text" id="secondFile" name="secondFile" required>
+    <br>
+    <button type="button" onclick="appendFiles()">Append Files</button>
+  </form>
+  <script>
+    function appendFiles() {
+      var firstFile = document.getElementById('firstFile').value;
+      var secondFile = document.getElementById('secondFile').value;
+
+      // Send file names to the server
+      fetch(`/append?firstFile=${firstFile}&secondFile=${secondFile}`)
+        .then(response => response.json())
+        .then(data => {
+          alert(data.message);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  </script>
+</body>
+</html>
+
+JS FILE
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs').promises;
+
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/append', async (req, res) => {
+  const firstFileName = req.query.firstFile;
+  const secondFileName = req.query.secondFile;
+
+  try {
+    // Read contents of the first file
+    const firstFileContents = await fs.readFile(firstFileName, 'utf-8');
+
+    // Append contents to the second file
+    await fs.appendFile(secondFileName, firstFileContents);
+
+    res.json({ message: 'Files appended successfully.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error appending files.' });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
+
